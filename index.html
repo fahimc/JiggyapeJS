@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>index</title>
+		<meta name="author" content="Fahim" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width,maximum-scale=1.0, minimum-scale=0.75" />
+
+		<!-- Date: 2012-12-28 -->
+		<script type="text/javascript" src="lib/greensock/easing/EasePack.js"></script>
+		<script type="text/javascript" src="lib/greensock/plugins/CSSPlugin.js"></script>
+		<script type="text/javascript" src="lib/greensock/TweenLite.js"></script>
+		<script type="text/javascript" src="lib/utensil/toolkitMax-v1001.js"></script>
+		<script type="text/javascript" src="lib/spider/gesture.js"></script>
+		<script type="text/javascript" src="lib/spider/Spider.js"></script>
+		<script type="text/javascript" src="src/Main.js"></script>
+		<link type="text/css" rel="stylesheet" href="resource/style/global.css">
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="header">
+				<img src="resource/image/logo.png" />
+			</div>
+			<div id="content" swipe="true">
+				<div>
+					<div class="searchbar">
+						<input type="text" id="searchBox"/>
+						<button id="searchButton" >search</button>
+					</div>
+					<div id="searchListHolder">
+						<ul id="searchList" scrollable="true">
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+							<li>test</li>
+						</ul>
+					</div>
+				</div>
+				<div>
+					<div class="heading" >
+						<h1>Carousel (swipe)</h1>
+					</div>
+					<div class="gallery">
+					<ul swipe="true">
+						<li><img src="resource/image/1.jpg" /></li>
+						<li><img src="resource/image/2.jpg" /></li>
+						<li><img src="resource/image/3.jpg" /></li>
+						<li><img src="resource/image/4.jpg" /></li>
+					</ul>
+					</div>
+				</div>
+				<div class="navHolder">
+					<div class="heading" >
+							<h1>Navigation</h1>
+					</div>
+					<ul>
+						<li navigate="0">Scrolling</li>
+						<li navigate="1">Carousel</li>
+						<li navigate="2">Navigation</li>
+						<li navigate="3" class="last">Slider</li>
+					</ul>
+				</div>
+				<div class="dragHolder">
+					<div class="heading" >
+							<h1>Slider</h1>
+					</div>
+					<div class="bar"><div class="handle" draggable="true" legend="percent"></div></div>
+					<div id="percent">0</div>
+				</div>
+				
+			</div>
+			
+			<div id="footer">
+				
+			</div>
+			<div id="splash"></div>
+		</div>
+
+	</body>
+</html>
+
