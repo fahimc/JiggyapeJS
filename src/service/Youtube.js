@@ -1,8 +1,21 @@
 var YoutubeService=
 {
-	 getVideos:function(search, author, categories, negativeCategories, keywords, negativeKeywords, orderBy, racy, startIndex, maxResults)
+	SearchOrder:
+	{
+		ORDER_BY_PUBLISHED: "published",
+		ORDER_BY_VIEWCOUNT: "viewCount",
+		ORDER_BY_RELEVANCE: "relevance"
+	},
+	SearchRacy:
+	{
+		RACY_INCLUDE: "include",
+		RACY_EXCLUDE: "exclude"
+	},
+	negativeTermsList :  ["-cover", "-instrumental", "-parody", "-interview", "-Parody", "-news", "-AWARDS"],
+	NEGATIVE_TERMS: "+-cover+-instrumental+-parody+-interview+-Parody+-news+-Awards+-Streaming+-INSTUMENTAL",
+	 getVideos:function(search, callback,author, categories, negativeCategories, keywords, negativeKeywords, orderBy, racy, startIndex, maxResults)
 		{
-			
+			//_ws.getVideos(_extraSearchTerms + _searchTerm + _removeTerms, "", null, null, null, _negativeTerms, SearchOrder.ORDER_BY_RELEVANCE, SearchRacy.RACY_INCLUDE, 1, 50);
 			var url = "http://gdata.youtube.com/feeds/api/videos";
 			if (categories && categories.length > 0)
 				url += "/-/" + categories.join("%7C");
@@ -20,11 +33,11 @@ var YoutubeService=
 			if (search.length > 0)
 //				url += "&vq=" + search;
 				url += "&q=" + search;
-				url+=AppData.NEGATIVE_TERMS;
+				url+=this.NEGATIVE_TERMS;
 			if (author.length > 0)
 				url += "&author=" + author;
 			url = encodeURI(url);
-			var request =Utensil.URLLoader.load(url,);
-			return runLoader(request, doVideosLoaded, { comment: "videos", search:search, author:author, categories:categories, keywords:keywords, orderBy:orderBy, racy:racy, startIndex:startIndex, maxResults:maxResults } );
+			console.log(url);
+			Utensil.URLLoader.load(url,callback);
 		}
 }
