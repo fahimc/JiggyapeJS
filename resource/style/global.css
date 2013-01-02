@@ -16,20 +16,7 @@ body
 	border:1px solid #CCCCCC;
 	padding:20px;
 }
-.heading{
-	
-	margin-bottom:5px;
-	background-color: #e4e4e4;
-	font-size:15px;
-	color:#ccc;
-	text-align: center;
-}
-.heading h1{
-	padding: 10px;
-	color:#333333;
-	font-size:20px;
-	font-weight: bold;
-}
+
 #splash
 {
 	background: url(../image/splash.jpg) no-repeat center center #273645;
@@ -60,7 +47,7 @@ body
 	display:none;
 	min-height: 20px;
 }
-#searchListHolder
+#searchListHolder,#playListHolder
 {
 	width:100%;
 	height:100%;
@@ -166,7 +153,7 @@ body
 	font-size:20px;
 	font-weight: bold;
 }
-.searchbar
+#searchbar
 {
 	width:100%;
 	height:40px;
@@ -175,7 +162,7 @@ body
 }
 #searchBox
 {
-	padding-left:5%;
+	text-align:center;
 	width:65%;
 	height:20px;
 	 -moz-border-radius: 5px;
@@ -203,14 +190,63 @@ body
 	 color: #E4E4E4;
 	 cursor:pointer;
 }
-#searchList
+#searchList,#playList
 {
 	width:100%;
+	padding-bottom: 20px;
+	
 }
-#searchList li
+#searchList .searchListLi
 {
-	height: 30px;
+	height: auto;
 	width:100%;
 	background-color: #becedf;
 	border-bottom: 2px solid #333333;
+}
+#playList .playListLi
+{
+	height: auto;
+	width:100%;
+	background-color: #becedf;
+	border-bottom: 2px solid #333333;
+}
+#searchList li p.title
+{
+	padding: 10px;
+	width:70%;
+	overflow: hidden;
+}
+#playList li p.title
+{
+	padding: 10px;
+	width:70%;
+	overflow: hidden;
+}
+.heading
+{
+	width:100%;
+	height:40px;
+	background-color: #333;
+	text-align: center;
+}
+.heading h1
+{
+	padding: 10px;
+	color:#e4e4e4;
+	font-size:16px;
+	font-weight: bold;
+}
+.searchItemUL .searchItemLI
+{
+	float:left;
+}
+.clearBoth
+{
+	float:none;
+	clear: both;
+}
+.searchItemImage
+{
+	width:50px;
+	height:50px;
 }

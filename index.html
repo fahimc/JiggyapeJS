@@ -17,6 +17,7 @@
 		<script type="text/javascript" src="src/service/Youtube.js"></script>
 		<script type="text/javascript" src="lib/spider/gesture.js"></script>
 		<script type="text/javascript" src="lib/spider/Spider.js"></script>
+		<script type="text/javascript" src="src/view/Jiggyape.js"></script>
 		<script type="text/javascript" src="src/Main.js"></script>
 		<link type="text/css" rel="stylesheet" href="resource/style/global.css">
 	</head>
@@ -27,65 +28,28 @@
 			</div>
 			<div id="content" swipe="true">
 				<div>
-					<div class="searchbar">
+					<div id="searchbar">
 						<input type="text" id="searchBox"/>
 						<button id="searchButton" >search</button>
 					</div>
 					<div id="searchListHolder">
 						<ul id="searchList" scrollable="true">
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
-							<li>test</li>
 						</ul>
 					</div>
 				</div>
 				<div>
 					<div class="heading" >
-						<h1>Carousel (swipe)</h1>
+						<h1>Playlist</h1>
 					</div>
-					<div class="gallery">
-					<ul swipe="true">
-						<li><img src="resource/image/1.jpg" /></li>
-						<li><img src="resource/image/2.jpg" /></li>
-						<li><img src="resource/image/3.jpg" /></li>
-						<li><img src="resource/image/4.jpg" /></li>
-					</ul>
+					<div id="playListHolder">
+						<ul id="playList" scrollable="true">
+						</ul>
 					</div>
 				</div>
 				<div class="navHolder">
 					<div class="heading" >
-							<h1>Navigation</h1>
+						<h1>Video Player</h1>
 					</div>
-					<ul>
-						<li navigate="0">Scrolling</li>
-						<li navigate="1">Carousel</li>
-						<li navigate="2">Navigation</li>
-						<li navigate="3" class="last">Slider</li>
-					</ul>
 				</div>
 				<div class="dragHolder">
 					<div class="heading" >
