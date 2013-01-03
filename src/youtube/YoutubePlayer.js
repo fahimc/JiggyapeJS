@@ -50,7 +50,7 @@ var YoutubePlayerJS = {
 	},
 	getVideoId:function(url)
 	{
-		"http://www.youtube.com/watch?v=LLKqqHc7s08&feature=youtube_gdata_player"
+		//"http://www.youtube.com/watch?v=LLKqqHc7s08&feature=youtube_gdata_player"
 		var str1 = url.split('v=')[1];
 		var str2 = str1.split('&');
 		return str2[0];

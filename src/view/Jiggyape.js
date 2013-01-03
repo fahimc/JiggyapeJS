@@ -14,6 +14,8 @@ var Jiggyape = {
 		Utensil.addListener(window, "resize", Jiggyape.event.onResize);
 		Spider.event.addListener(Jiggyape.view.id.searchButton, "click",
 				Jiggyape.event.onSearch);
+				
+		Jiggyape.view.VideoView.init();
 	}
 };
 Jiggyape.data = {
@@ -25,7 +27,8 @@ Jiggyape.data = {
 Jiggyape.view = {
 	att : {
 		videoId : "video-id",
-		videoTitle : "video-title"
+		videoTitle : "video-title",
+		playlistParent:"playlist-parent"
 	},
 	id : {
 		searchListHolder : 'searchListHolder',
@@ -35,6 +38,8 @@ Jiggyape.view = {
 		searchList : 'searchList',
 		searchBar : 'searchbar',
 		playList : 'playList',
+		playlistEntry : 'playlistentry-',
+		videoBackButton:'videoBackButton'
 	},
 	element : {
 		searchBox : null,
@@ -115,13 +120,14 @@ Jiggyape.view = {
 		var playList = Jiggyape.view.element.playList;
 		var li = document.createElement('li');
 		li.className = "playListLi";
+		li.id=Jiggyape.view.id.playlistEntry+Jiggyape.data.playlist.total;
 		li.setAttribute(Jiggyape.view.att.videoId, videoURL);
 
 		var p = document.createElement('p');
 		p.id = "playListTitleHolder-" + Jiggyape.data.playlist.total;
 		p.className = "title";
 		p.innerHTML = title;
-		p.style.width = (Utensil.stageWidth() - 86) + "px";
+		p.style.width = (Utensil.stageWidth() - 152) + "px";
 		li.appendChild(p);
 
 		var playButton = document.createElement('div');
@@ -131,13 +137,19 @@ Jiggyape.view = {
 		playButton.setAttribute(Jiggyape.view.att.videoTitle, title);
 		playButton.setAttribute('index', Jiggyape.data.playlist.total);
 		li.appendChild(playButton);
+		
+		var removeButton = document.createElement('div');
+		removeButton.id = "removeButton-" + Jiggyape.data.playlist.total;
+		removeButton.className = "smallRemoveButton";
+		removeButton.setAttribute('index', Jiggyape.data.playlist.total);
+		li.appendChild(removeButton);
 
 		var clear = document.createElement('div');
 		clear.className = 'clearBoth';
 		li.appendChild(clear);
 
-		Spider.event.addListener(playButton.id, "click",
-				Jiggyape.event.onPlaylistPlayClicked);
+		Spider.event.addListener(playButton.id, "click",Jiggyape.event.onPlaylistPlayClicked);
+		Spider.event.addListener(removeButton.id, "click",Jiggyape.event.onPlaylistRemoveClicked);
 
 		playList.appendChild(li);
 		Jiggyape.data.playlist.total++;
@@ -179,6 +191,7 @@ Jiggyape.event = {
 				.getAttribute(Jiggyape.view.att.videoTitle)
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoTitle);
 		Jiggyape.view.addToPlaylist(videoTitle, videoURL);
+		Spider.updateScrollers();
 	},
 	onResize : function() {
 		var header = document.getElementById(Spider.data.id.header);
@@ -214,6 +227,32 @@ Jiggyape.event = {
 		YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		YoutubePlayerJS.playVideo();
 		Jiggyape.data.currentIndex =element.getAttribute('index');
+	},
+	onPlaylistRemoveClicked : function(item, event) {
+		
+		var element = event.srcElement || event.target;
+		var index = element.getAttribute('index');
+		
+		var li = document.getElementById(Jiggyape.view.id.playlistEntry+index);
+		
+		li.parentNode.removeChild(li);
+		
+		var searchList = Jiggyape.view.element.searchList;
+		for (a = 0; a < searchList.childNodes.length; a++) {
+			if (searchList.childNodes[a].tagName == "LI") {
+				var childIndex = searchList.childNodes[a].getAttribute('index');
+				if(childIndex>index)
+				{
+					childIndex--;
+					searchList.childNodes[a].setAttribute('index',childIndex);
+				}
+			}
+		}
+		Jiggyape.data.playlist.total--;
+	},
+	onVideoViewBack:function(item,event)
+	{
+		Spider.navigateTo(1);
 	}
 }
 Jiggyape.service = {
@@ -248,7 +287,7 @@ Jiggyape.view.PlayListView = {
 				childIndex++;
 				if ((Jiggyape.data.currentIndex + 1) == childIndex) {
 					Jiggyape.data.currentIndex++;
-					this.playSong(child.getAttribute(Jiggyape.view.att.videoId))
+					this.playSong(child.getAttribute(Jiggyape.view.att.videoId));
 					a = playList.childNodes.length + 1;
 					var element = document.getElementById("playListTitleHolder-" + Jiggyape.data.currentIndex);
 					element.className += " smallControlSelected";
@@ -264,15 +303,19 @@ Jiggyape.view.PlayListView = {
 		for ( var a = 0; a < Jiggyape.data.playlist.total; a++) {
 			var child = document.getElementById("playListTitleHolder-" + a);
 			if (child) {
-				child.style.width = (Utensil.stageWidth() - 86) + "px";
+				child.style.width = (Utensil.stageWidth() - 152) + "px";
 			}
 		}
 	}
 }
 Jiggyape.view.VideoView = {
 	playerId : 'player',
+	init:function()
+	{
+		Spider.event.addListener(Jiggyape.view.id.videoBackButton, "click",Jiggyape.event.onVideoViewBack);
+	},
 	onstateChange : function(data) {
-		console.log("onstateChange", data);
+		
 		if (data == 0) {
 			Jiggyape.view.PlayListView.nextSong();
 		}
