@@ -108,7 +108,7 @@ Jiggyape.view = {
 		Spider.event.addListener(addButton.id, "click",
 				Jiggyape.event.onAddToPlaylist);
 		searchList.appendChild(li);
-
+		
 	},
 	addToPlaylist : function(title, videoURL) {
 
@@ -193,10 +193,10 @@ Jiggyape.event = {
 				.stageHeight()
 				- header.clientHeight - footer.clientHeight - Jiggyape.view.element.searchBar.clientHeight)
 				+ "px";
-		Spider.updateScrollers();
-
 		Jiggyape.view.VideoView.resize();
 		Jiggyape.view.SearchView.resize();
+		
+		Spider.updateScrollers();
 	},
 	onPlaylistPlayClicked : function(item, event) {
 		
