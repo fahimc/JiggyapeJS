@@ -129,6 +129,7 @@ Jiggyape.view = {
 		playButton.className = "playButton";
 		playButton.setAttribute(Jiggyape.view.att.videoId, videoURL);
 		playButton.setAttribute(Jiggyape.view.att.videoTitle, title);
+		playButton.setAttribute('index', Jiggyape.data.playlist.total);
 		li.appendChild(playButton);
 
 		var clear = document.createElement('div');
@@ -198,13 +199,21 @@ Jiggyape.event = {
 		Jiggyape.view.SearchView.resize();
 	},
 	onPlaylistPlayClicked : function(item, event) {
+		
+		
+		var previous = document.getElementById("playButton-" + Jiggyape.data.currentIndex);
+		if(previous)previous.className =previous.className.replace("smallControlSelected","");
+		
 		var element = event.srcElement || event.target;
-		element.className += " smallControlSelected";
+		if(element.className.indexOf('smallControlSelected')<0)element.className += " smallControlSelected";
+		
+		
 		var videoURL = element.getAttribute(Jiggyape.view.att.videoId) ? element
 				.getAttribute(Jiggyape.view.att.videoId)
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoId);
 		YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		YoutubePlayerJS.playVideo();
+		Jiggyape.data.currentIndex =element.getAttribute('index');
 	}
 }
 Jiggyape.service = {
@@ -227,7 +236,7 @@ Jiggyape.view.PlayListView = {
 		var playList = Jiggyape.view.element.playList;
 		var childIndex = -1;
 		
-		var element = document.getElementById("playListTitleHolder-" + Jiggyape.data.currentIndex);
+		var element = document.getElementById("playButton-" + Jiggyape.data.currentIndex);
 		if(element)element.className =element.className.replace("smallControlSelected","");
 		
 		if (Jiggyape.data.currentIndex >= Jiggyape.data.playlist.total)
@@ -235,15 +244,14 @@ Jiggyape.view.PlayListView = {
 		for ( var a = 0; a < playList.childNodes.length; a++) {
 			var child = playList.childNodes[a];
 
-			if (child.getAttribute
-					&& child.getAttribute(Jiggyape.view.att.videoId)) {
+			if (child.getAttribute && child.getAttribute(Jiggyape.view.att.videoId)) {
 				childIndex++;
 				if ((Jiggyape.data.currentIndex + 1) == childIndex) {
 					Jiggyape.data.currentIndex++;
-					this
-							.playSong(child
-									.getAttribute(Jiggyape.view.att.videoId))
+					this.playSong(child.getAttribute(Jiggyape.view.att.videoId))
 					a = playList.childNodes.length + 1;
+					var element = document.getElementById("playListTitleHolder-" + Jiggyape.data.currentIndex);
+					element.className += " smallControlSelected";
 				}
 			}
 		}
