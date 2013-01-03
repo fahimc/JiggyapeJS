@@ -320,8 +320,12 @@ Jiggyape.view.VideoView = {
 			Jiggyape.view.PlayListView.nextSong();
 		}
 	},
+	readyEvent:function(data)
+	{
+		YoutubePlayerJS.setPlaybackQuality(YoutubePlayerJS.quality.SMALL);
+	},
 	errorEvent : function(data) {
-		Spider.toast("error: " + data);
+		//Spider.toast("error: " + data);
 	},
 	resize : function() {
 		var player = document.getElementById(this.playerId);

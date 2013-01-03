@@ -14,6 +14,15 @@ var YoutubePlayerJS = {
 		ERROR_NOT_ALLOWED:150
 		
 	},
+	quality:
+	{
+		SMALL:"small",
+		MEDIUM:"medium",
+		LARGE:"large",
+		HD720:"hd720",
+		HD1080:"hd1080",
+		HIGHRES:"highres"
+	},
 	player : null,
 	stateChangeEvent:null,
 	readyEvent:null,
@@ -31,6 +40,10 @@ var YoutubePlayerJS = {
 	},
 	onPlayerStateChange : function(event) {
 		if(YoutubePlayerJS.stateChangeEvent)YoutubePlayerJS.stateChangeEvent(event.data);
+	},
+	setPlaybackQuality:function(str)
+	{
+		YoutubePlayerJS.setPlaybackQuality(str);
 	},
 	onError:function(event)
 	{

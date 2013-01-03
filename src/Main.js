@@ -14,6 +14,7 @@
 		//setup youtube player
 		YoutubePlayerJS.stateChangeEvent = Jiggyape.view.VideoView.onstateChange;
 		YoutubePlayerJS.errorEvent = Jiggyape.view.VideoView.errorEvent;
+		YoutubePlayerJS.readyEvent = Jiggyape.view.VideoView.readyEvent;
 		YoutubePlayerJS.init();
 	}
 
