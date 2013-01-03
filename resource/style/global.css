@@ -193,6 +193,7 @@ body
 #searchList,#playList
 {
 	width:100%;
+	max-width:100%;
 	padding-bottom: 20px;
 	
 }
@@ -202,6 +203,8 @@ body
 	width:100%;
 	background-color: #becedf;
 	border-bottom: 2px solid #333333;
+	padding-top:10px;
+	padding-bottom:10px;
 }
 #playList .playListLi
 {
@@ -221,6 +224,7 @@ body
 	padding: 10px;
 	width:70%;
 	overflow: hidden;
+	float:left;
 }
 .heading
 {
@@ -249,4 +253,27 @@ body
 {
 	width:50px;
 	height:50px;
+	padding-left:10px;
+}
+#player
+{
+	width:100%;
+	height:100%;
+}
+.addButton
+{
+background-image: url(../image/add_button.png);
+width: 56px;
+height: 35px;
+cursor: pointer;
+}
+.smallControlSelected {
+background-position: -112px;
+}
+.playListLi .playButton {
+background-image: url(../image/playlist_play.png);
+width: 56px;
+height: 35px;
+float:left;
+margin-right: 10px;
 }

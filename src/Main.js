@@ -11,7 +11,10 @@
 		} else {
 			window.attachEvent("onload", onLoad);
 		}
-		
+		//setup youtube player
+		YoutubePlayerJS.stateChangeEvent = Jiggyape.view.VideoView.onstateChange;
+		YoutubePlayerJS.errorEvent = Jiggyape.view.VideoView.errorEvent;
+		YoutubePlayerJS.init();
 	}
 
 	function onLoad() {
