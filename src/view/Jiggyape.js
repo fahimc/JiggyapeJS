@@ -223,7 +223,8 @@ Jiggyape.event = {
 				+ "px";
 		Jiggyape.view.VideoView.resize();
 		Jiggyape.view.SearchView.resize();
-
+		Jiggyape.view.PlayListView.resize();
+		
 		Spider.updateScrollers();
 	},
 	onPlaylistPlayClicked : function(item, event) {
