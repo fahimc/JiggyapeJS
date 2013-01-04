@@ -1,5 +1,6 @@
 var Jiggyape = {
 	init : function() {
+		gesture.addToIgnore(Jiggyape.view.id.searchBox);
 		Jiggyape.view.element.searchBox = document
 				.getElementById(Jiggyape.view.id.searchBox);
 		Jiggyape.view.element.searchButton = document
