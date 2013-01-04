@@ -6,7 +6,7 @@
 		<meta name="author" content="Fahim" />
 		<meta name="apple-mobile-web-app-capable" content="yes" /> 
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-		<meta name="viewport" content="width=device-width,maximum-scale=1.0, minimum-scale=0.75" />
+		<meta name="viewport" content="width=device-width,maximum-scale=1.0, minimum-scale=0.75, user-scalable=no">
 
 		<!-- Date: 2012-12-28 -->
 		<script type="text/javascript" src="lib/greensock/easing/EasePack.js"></script>
@@ -29,8 +29,13 @@
 			<div id="content" swipe="true">
 				<div>
 					<div id="searchbar">
-						<input type="text" id="searchBox"/>
-						<button id="searchButton" >search</button>
+						<ul class="searchboxul">
+							<li class="searchboxli"><img src="resource/image/searchboxLeft.png" /></li>
+							<li class="middle searchboxli"><input type="text" id="searchBox"/></li>
+							<li class="searchboxli right"><img src="resource/image/searchboxRight.png" /></li>
+							<li class="clearBoth"></li>
+						</ul>
+						
 					</div>
 					<div id="searchListHolder">
 						<ul id="searchList" scrollable="true">
@@ -59,7 +64,7 @@
 			</div>
 			
 			<div id="footer">
-				
+				<img class="youtubeLogo" src="resource/image/yt_powered_by.png" />
 			</div>
 			<div id="splash"></div>
 		</div>
