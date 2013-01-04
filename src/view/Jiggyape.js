@@ -15,7 +15,9 @@ var Jiggyape = {
 		Utensil.addListener(window, "resize", Jiggyape.event.onResize);
 		Spider.event.addListener(Jiggyape.view.id.searchButton, "click",
 				Jiggyape.event.onSearch);
-				
+		Spider.event.addListener('pagechange', Spider.event.type.onPageChange,
+				Jiggyape.event.onPageChange);
+
 		Jiggyape.view.VideoView.init();
 	}
 };
@@ -23,13 +25,22 @@ Jiggyape.data = {
 	currentIndex : 0,
 	playlist : {
 		total : 0
+	},
+	player : {
+		state : {
+			PLAYING : "PLAYING",
+			PAUSED : "PAUSED",
+			STOPPED : "STOPPED",
+			FORCED_PAUSED : "FORCED_PAUSED"
+		},
+		currentState : null
 	}
 }
 Jiggyape.view = {
 	att : {
 		videoId : "video-id",
 		videoTitle : "video-title",
-		playlistParent:"playlist-parent"
+		playlistParent : "playlist-parent"
 	},
 	id : {
 		searchListHolder : 'searchListHolder',
@@ -40,7 +51,7 @@ Jiggyape.view = {
 		searchBar : 'searchbar',
 		playList : 'playList',
 		playlistEntry : 'playlistentry-',
-		videoBackButton:'videoBackButton'
+		videoBackButton : 'videoBackButton'
 	},
 	element : {
 		searchBox : null,
@@ -114,14 +125,14 @@ Jiggyape.view = {
 		Spider.event.addListener(addButton.id, "click",
 				Jiggyape.event.onAddToPlaylist);
 		searchList.appendChild(li);
-		
+
 	},
 	addToPlaylist : function(title, videoURL) {
 
 		var playList = Jiggyape.view.element.playList;
 		var li = document.createElement('li');
 		li.className = "playListLi";
-		li.id=Jiggyape.view.id.playlistEntry+Jiggyape.data.playlist.total;
+		li.id = Jiggyape.view.id.playlistEntry + Jiggyape.data.playlist.total;
 		li.setAttribute(Jiggyape.view.att.videoId, videoURL);
 
 		var p = document.createElement('p');
@@ -138,7 +149,7 @@ Jiggyape.view = {
 		playButton.setAttribute(Jiggyape.view.att.videoTitle, title);
 		playButton.setAttribute('index', Jiggyape.data.playlist.total);
 		li.appendChild(playButton);
-		
+
 		var removeButton = document.createElement('div');
 		removeButton.id = "removeButton-" + Jiggyape.data.playlist.total;
 		removeButton.className = "smallRemoveButton";
@@ -149,8 +160,10 @@ Jiggyape.view = {
 		clear.className = 'clearBoth';
 		li.appendChild(clear);
 
-		Spider.event.addListener(playButton.id, "click",Jiggyape.event.onPlaylistPlayClicked);
-		Spider.event.addListener(removeButton.id, "click",Jiggyape.event.onPlaylistRemoveClicked);
+		Spider.event.addListener(playButton.id, "click",
+				Jiggyape.event.onPlaylistPlayClicked);
+		Spider.event.addListener(removeButton.id, "click",
+				Jiggyape.event.onPlaylistRemoveClicked);
 
 		playList.appendChild(li);
 		Jiggyape.data.playlist.total++;
@@ -166,6 +179,7 @@ Jiggyape.event = {
 					"", null, null, null, YoutubeService.negativeTermsList,
 					YoutubeService.SearchOrder.ORDER_BY_RELEVANCE,
 					YoutubeService.SearchRacy.RACY_INCLUDE, 1, 50);
+			Spider.toast("Seaching...");
 		}
 	},
 	onList : function(t, x) {
@@ -209,52 +223,71 @@ Jiggyape.event = {
 				+ "px";
 		Jiggyape.view.VideoView.resize();
 		Jiggyape.view.SearchView.resize();
-		
+
 		Spider.updateScrollers();
 	},
 	onPlaylistPlayClicked : function(item, event) {
-		
-		
-		var previous = document.getElementById("playButton-" + Jiggyape.data.currentIndex);
-		if(previous)previous.className =previous.className.replace("smallControlSelected","");
-		
+
+		var previous = document.getElementById("playButton-"
+				+ Jiggyape.data.currentIndex);
+		if (previous)
+			previous.className = previous.className.replace(
+					"smallControlSelected", "");
+
 		var element = event.srcElement || event.target;
-		if(element.className.indexOf('smallControlSelected')<0)element.className += " smallControlSelected";
-		
-		
+		if (element.className.indexOf('smallControlSelected') < 0)
+			element.className += " smallControlSelected";
+
 		var videoURL = element.getAttribute(Jiggyape.view.att.videoId) ? element
 				.getAttribute(Jiggyape.view.att.videoId)
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoId);
 		YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		YoutubePlayerJS.playVideo();
-		Jiggyape.data.currentIndex =element.getAttribute('index');
+		Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
+		Jiggyape.data.currentIndex = element.getAttribute('index');
+
+		Spider.navigateTo(2);
 	},
 	onPlaylistRemoveClicked : function(item, event) {
-		
+
 		var element = event.srcElement || event.target;
 		var index = element.getAttribute('index');
-		
-		var li = document.getElementById(Jiggyape.view.id.playlistEntry+index);
-		
+
+		var li = document
+				.getElementById(Jiggyape.view.id.playlistEntry + index);
+
 		li.parentNode.removeChild(li);
-		
+
 		var searchList = Jiggyape.view.element.searchList;
 		for (a = 0; a < searchList.childNodes.length; a++) {
 			if (searchList.childNodes[a].tagName == "LI") {
 				var childIndex = searchList.childNodes[a].getAttribute('index');
-				if(childIndex>index)
-				{
+				if (childIndex > index) {
 					childIndex--;
-					searchList.childNodes[a].setAttribute('index',childIndex);
+					searchList.childNodes[a].setAttribute('index', childIndex);
 				}
 			}
 		}
 		Jiggyape.data.playlist.total--;
 	},
-	onVideoViewBack:function(item,event)
-	{
+	onVideoViewBack : function(item, event) {
+		if(Jiggyape.data.player.currentState == Jiggyape.data.player.state.PLAYING)
+			{
+				Jiggyape.data.player.currentState =  Jiggyape.data.player.state.FORCED_PAUSED;
+				YoutubePlayerJS.pauseVideo();
+			}
+		
 		Spider.navigateTo(1);
+	},
+	onPageChange:function(index)
+	{
+		if(index==2 && Jiggyape.data.player.currentState ==Jiggyape.data.player.state.FORCED_PAUSED)
+		{
+			Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
+			YoutubePlayerJS.playVideo();
+		}
 	}
+	
 }
 Jiggyape.service = {
 
@@ -275,22 +308,30 @@ Jiggyape.view.PlayListView = {
 	nextSong : function() {
 		var playList = Jiggyape.view.element.playList;
 		var childIndex = -1;
-		
-		var element = document.getElementById("playButton-" + Jiggyape.data.currentIndex);
-		if(element)element.className =element.className.replace("smallControlSelected","");
-		
+
+		var element = document.getElementById("playButton-"
+				+ Jiggyape.data.currentIndex);
+		if (element)
+			element.className = element.className.replace(
+					"smallControlSelected", "");
+
 		if (Jiggyape.data.currentIndex >= Jiggyape.data.playlist.total)
 			Jiggyape.data.currentIndex = 0;
 		for ( var a = 0; a < playList.childNodes.length; a++) {
 			var child = playList.childNodes[a];
 
-			if (child.getAttribute && child.getAttribute(Jiggyape.view.att.videoId)) {
+			if (child.getAttribute
+					&& child.getAttribute(Jiggyape.view.att.videoId)) {
 				childIndex++;
 				if ((Jiggyape.data.currentIndex + 1) == childIndex) {
 					Jiggyape.data.currentIndex++;
-					this.playSong(child.getAttribute(Jiggyape.view.att.videoId));
+					this
+							.playSong(child
+									.getAttribute(Jiggyape.view.att.videoId));
 					a = playList.childNodes.length + 1;
-					var element = document.getElementById("playListTitleHolder-" + Jiggyape.data.currentIndex);
+					var element = document
+							.getElementById("playListTitleHolder-"
+									+ Jiggyape.data.currentIndex);
 					element.className += " smallControlSelected";
 				}
 			}
@@ -299,6 +340,8 @@ Jiggyape.view.PlayListView = {
 	playSong : function(videoURL) {
 		YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		YoutubePlayerJS.playVideo();
+		Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
+		
 	},
 	resize : function() {
 		for ( var a = 0; a < Jiggyape.data.playlist.total; a++) {
@@ -311,22 +354,21 @@ Jiggyape.view.PlayListView = {
 }
 Jiggyape.view.VideoView = {
 	playerId : 'player',
-	init:function()
-	{
-		Spider.event.addListener(Jiggyape.view.id.videoBackButton, "click",Jiggyape.event.onVideoViewBack);
+	init : function() {
+		Spider.event.addListener(Jiggyape.view.id.videoBackButton, "click",
+				Jiggyape.event.onVideoViewBack);
 	},
 	onstateChange : function(data) {
-		
+
 		if (data == 0) {
 			Jiggyape.view.PlayListView.nextSong();
 		}
 	},
-	readyEvent:function(data)
-	{
+	readyEvent : function(data) {
 		YoutubePlayerJS.setPlaybackQuality(YoutubePlayerJS.quality.SMALL);
 	},
 	errorEvent : function(data) {
-		//Spider.toast("error: " + data);
+		// Spider.toast("error: " + data);
 	},
 	resize : function() {
 		var player = document.getElementById(this.playerId);

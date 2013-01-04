@@ -43,7 +43,7 @@ var YoutubePlayerJS = {
 	},
 	setPlaybackQuality:function(str)
 	{
-		YoutubePlayerJS.setPlaybackQuality(str);
+		YoutubePlayerJS.player.setPlaybackQuality(str);
 	},
 	onError:function(event)
 	{

@@ -7,7 +7,7 @@
 	function Main() {
 		if (window.addEventListener) {
 			window.addEventListener("load", onLoad);
-			//window.addEventListener("orientationchange", onResize);
+			window.addEventListener("orientationchange", Jiggyape.event.onResize);
 		} else {
 			window.attachEvent("onload", onLoad);
 		}
@@ -26,7 +26,6 @@
 	}
 	function onReady()
 	{
-		setTimeout(function(){Spider.toast("Swipe right to goto the next page");},1000);
 		Jiggyape.event.onResize();
 
 	}
