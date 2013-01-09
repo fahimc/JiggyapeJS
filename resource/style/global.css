@@ -3,7 +3,15 @@
 	background-color: #4A6686;
 	font-family: Arial, Helvetica, sans-serif;
 }
-#spider-content,#splash{
+#spider-content
+{
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	filter: alpha(opacity=0);
+	-moz-opacity:0;
+	-khtml-opacity: 0;
+	opacity: 0;
+}
+#splash{
 	visibility: hidden;
 }
 .red{
