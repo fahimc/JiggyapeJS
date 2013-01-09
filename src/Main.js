@@ -20,6 +20,7 @@
 
 	function onLoad() {
 		Event.addListener(Spider,Spider.event.COMPLETE,onReady);
+		Spider.data.className.scroller ="listScroller";
 		Spider.init();
 		Jiggyape.init();	
 		
