@@ -13,7 +13,7 @@ var Jiggyape = {
 				.getElementById(Jiggyape.view.id.playList);
 
 		Utensil.addListener(window, "resize", Jiggyape.event.onResize);
-		Utensil.addListener(Jiggyape.view.element.searchBox, "keyup", Jiggyape.event.onSearchKeyUp);
+		Utensil.addListener(document, "keyup", Jiggyape.event.onSearchKeyUp);
 		
 		// Spider.event.addListener(Jiggyape.view.id.searchButton, "click",
 				// Jiggyape.event.onSearch);
