@@ -193,6 +193,7 @@
 #playList li p.title
 {
 	padding: 10px;
+	padding-left:20px;
 	width:70%;
 	overflow: hidden;
 	text-shadow: 1px 1px 1px #000;
@@ -227,7 +228,7 @@
 {
 	width:50px;
 	height:50px;
-	margin-left:10px;
+	margin-left:20px;
     border: 1px solid #000;
 }
 #player
@@ -239,7 +240,7 @@
 .addButton
 {
 background-image: url(../image/add_button.png);
-width: 56px;
+width: 46px;
 height: 35px;
 cursor: pointer;
 }
@@ -252,10 +253,9 @@ background-position: -112px;
 }
 .playListLi .playButton {
 background-image: url(../image/playlist_play.png);
-width: 56px;
+width: 46px;
 height: 35px;
 float:left;
-margin-right: 10px;
 cursor: pointer;
 }
 .smallRemoveButton {
@@ -268,10 +268,17 @@ cursor: pointer;
 }
 .backButton
 {
+	background: url(../image/back_button.png) no-repeat ;
 	position:absolute;
 	top: 5px;
 	left:5px;
+	width: 50px;
+	height: 30px;
 	cursor: pointer;
+}
+.backButton.over
+{
+	background-position: -50px;
 }
 .backArrow {
 background: url(../image/backarrow.png) no-repeat ;
