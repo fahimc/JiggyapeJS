@@ -125,7 +125,7 @@ Jiggyape.view = {
 		li3.appendChild(addButton);
 
 		li2.id = "searchTitleHolder-" + index;
-		li2.style.width = (Utensil.stageWidth() - 60 - 66) + "px";
+		li2.style.width = (Utensil.stageWidth() - (70 + 76)) + "px";
 
 		Spider.event.addListener(addButton.id, "click",
 				Jiggyape.event.onAddToPlaylist);
@@ -144,7 +144,7 @@ Jiggyape.view = {
 		p.id = "playListTitleHolder-" + Jiggyape.data.playlist.total;
 		p.className = "title";
 		p.innerHTML = title;
-		p.style.width = (Utensil.stageWidth() - 152) + "px";
+		p.style.width = (Utensil.stageWidth() - 162) + "px";
 		li.appendChild(p);
 
 		var playButton = document.createElement('div');
@@ -312,7 +312,7 @@ Jiggyape.view.SearchView = {
 			if (searchList.childNodes[a].tagName == "LI") {
 				var index = searchList.childNodes[a].getAttribute('index');
 				var li = document.getElementById('searchTitleHolder-' + index);
-				li.style.width = (Utensil.stageWidth() - 60 - 66) + "px";
+				li.style.width = (Utensil.stageWidth() - 70 - 76) + "px";
 			}
 		}
 	}
@@ -356,7 +356,7 @@ Jiggyape.view.PlayListView = {
 		for ( var a = 0; a < Jiggyape.data.playlist.total; a++) {
 			var child = document.getElementById("playListTitleHolder-" + a);
 			if (child) {
-				child.style.width = (Utensil.stageWidth() - 152) + "px";
+				child.style.width = (Utensil.stageWidth() - 162) + "px";
 			}
 		}
 	}
