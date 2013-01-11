@@ -1,7 +1,7 @@
 
 #wrapper{
 	background-color: #2b2c2b;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Open Sans', sans-serif;
 }
 .listScroller
 {
@@ -77,18 +77,39 @@
 
 
 .bar{
-	width:200px;
-	min-height: 2px;
-	background-color: #E4E4E4;
-	margin-top: 50px;
+	width:95%;
+	min-height: 8px;
+	border: 1px solid #fff;
+	margin-top: 10px;
 	margin-left: auto;
 	margin-right: auto;
 	color:#E4E4E4;
 	position: relative;
+	 -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+.filler
+{
+	width:0px;
+	min-height: 10px;
+	background-color: #0082f2;
+	border-top-left-radius:20px;
+	border-bottom-left-radius:20px;
+	
+	 -moz-border-top-left-radius:20px;
+	 -moz-border-bottom-left-radius:20px;
+	
+	-webkit-border-top-left-radius:20px;
+	-webkit-border-bottom-left-radius:20px;
+	
+	-khtml-border-top-left-radius:20px;
+	-khtml-border-bottom-left-radius:20px;
 }
 .handle
 {
-	background-color: #333;
+	background-color: #fff;
 	width:20px;
 	height:20px;
 	 -moz-border-radius: 20px;
@@ -96,7 +117,7 @@
     -khtml-border-radius: 20px;
     border-radius: 20px;
     position:absolute;
-    margin-top:-10px;
+    margin-top:-5px;
 }
 #percent
 {
@@ -330,4 +351,64 @@ float: left;
 }
 textarea:focus, input:focus{
     outline: none;
+}
+#controlsHolder
+{
+	min-height:70px;
+	width:100%;
+	background-color: #2b2c2b;
+	text-align: center;
+	border-top: 2px solid #222222;
+	
+}
+#seekerHolder
+{
+	min-height:20px;
+	width:100%;
+	border-bottom: 2px solid #222222;
+}
+#previousVideoButton
+{
+	width:60px;
+	height:50px;
+	background: url(../image/previous_song.png) no-repeat ;
+}
+
+#previousVideoButton.over
+{
+	background-position: -60px;
+}
+#nextVideoButton
+{
+	width:60px;
+	height:50px;
+	background: url(../image/next_song.png) no-repeat ;
+	background-position: -60px;
+}
+
+#nextVideoButton.over
+{
+	background-position: 0px;
+}
+#controlsHolder .buttonHolder
+{
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	width:155px;
+}
+#controlsHolder .buttonHolder li.control
+{
+	float: left;
+}
+#playPauseButton
+{
+	width:35px;
+	height:50px;
+	background: url(../image/playpause.png) no-repeat ;
+}
+#playPauseButton.over
+{
+	background-position: -35px;
 }

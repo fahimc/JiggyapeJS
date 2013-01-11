@@ -18,8 +18,10 @@
 		<script type="text/javascript" src="lib/spider/gesture.js"></script>
 		<script type="text/javascript" src="lib/spider/Spider.js"></script>
 		<script type="text/javascript" src="src/view/Jiggyape.js"></script>
+		<script type="text/javascript" src="src/util/Util.js"></script>
 		<script type="text/javascript" src="src/Main.js"></script>
 		<link type="text/css" rel="stylesheet" href="resource/style/global.css">
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 		<style type="text/css">
 			*{
 				padding:0;
@@ -64,6 +66,26 @@
 						
 					</div>
 					<div id="player"></div>
+					<div id="controlsHolder">
+						<div id="seekerHolder">
+							<div class="bar">
+								<div id="seekerHandle" class="handle" draggable="true"></div>
+								<div class="filler" drag-filler="true"></div> 
+							</div>
+						</div>
+						<ul class="buttonHolder">
+							<li id="previousVideoButton" class="control">
+								
+							</li>
+							<li id="playPauseButton" class="control">
+								
+							</li>
+							<li id="nextVideoButton" class="control">
+								
+							</li>
+							<li class="clearBoth"></li>
+						</ul>
+					</div>
 				</div>
 				
 				
