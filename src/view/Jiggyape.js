@@ -339,10 +339,11 @@ Jiggyape.event = {
 	{
 		if(Jiggyape.data.player.currentState==Jiggyape.data.player.state.PLAYING)
 			{
+			Jiggyape.data.player.currentState=Jiggyape.data.player.state.PAUSED;
 				Jiggyape.view.VideoView.paused();
 				YoutubePlayerJS.pauseVideo();
 			}else{
-				Jiggyape.data.player.currentState=Jiggyape.data.player.state.PAUSED;
+				
 				Jiggyape.view.VideoView.playing();
 				YoutubePlayerJS.playVideo();
 				
