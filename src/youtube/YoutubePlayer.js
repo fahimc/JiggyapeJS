@@ -98,7 +98,7 @@ function onYouTubeIframeAPIReady() {
 		videoId : '',
 		playerVars : {
 			'autoplay' : '1',
-			'controls' : '1',
+			'controls' : '0',
 			'iv_load_policy':'3'
 		},
 		events : {
