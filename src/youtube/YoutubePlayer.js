@@ -60,6 +60,10 @@ var YoutubePlayerJS = {
 		clearInterval(YoutubePlayerJS.seekTimer);
 		YoutubePlayerJS.seekTimer = setInterval(YoutubePlayerJS.onTimer, 100);
 	},
+	cueVideoById:function(id)
+	{
+		YoutubePlayerJS.player.cueVideoById(id);
+	},
 	pauseVideo : function() {
 		clearInterval(YoutubePlayerJS.seekTimer);
 		YoutubePlayerJS.player.pauseVideo();
@@ -99,7 +103,8 @@ function onYouTubeIframeAPIReady() {
 		playerVars : {
 			'autoplay' : '1',
 			'controls' : '0',
-			'iv_load_policy':'3'
+			'iv_load_policy':'3',
+			'html5':'0'
 		},
 		events : {
 			'onReady' : YoutubePlayerJS.onPlayerReady,
