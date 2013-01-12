@@ -39,7 +39,8 @@ var Jiggyape = {
 Jiggyape.data = {
 	currentIndex : 0,
 	playlist : {
-		total : 0
+		total : 0,
+		videoRemovedIndex:null,
 	},
 	player : {
 		state : {
@@ -276,6 +277,7 @@ Jiggyape.event = {
 		var element = event.srcElement || event.target;
 		var index = element.getAttribute('index');
 		Jiggyape.data.player.playlist.splice(Number(index)+1,1);
+		
 		if(YoutubePlayerJS.player.getPlaylistIndex()>=Number(index)+1)
 		{
 			Jiggyape.view.PlayListView.removeSelectedButton();
@@ -284,23 +286,34 @@ Jiggyape.event = {
 			var n = document.getElementById("playButton-"+ (Jiggyape.data.currentIndex-1));
 					n.className += " smallControlSelected";
 		}
-		YoutubePlayerJS.player.cuePlaylist(Jiggyape.data.player.playlist,Jiggyape.data.currentIndex);
-		console.log(Jiggyape.data.player.playlist);
+		YoutubePlayerJS.player.loadPlaylist(Jiggyape.data.player.playlist,Jiggyape.data.currentIndex);
+		
+		
 		var li = document
 				.getElementById(Jiggyape.view.id.playlistEntry + index);
 
 		li.parentNode.removeChild(li);
 
-		var searchList = Jiggyape.view.element.searchList;
-		for (a = 0; a < searchList.childNodes.length; a++) {
-			if (searchList.childNodes[a].tagName == "LI") {
-				var childIndex = searchList.childNodes[a].getAttribute('index');
-				if (childIndex > index) {
+		var playList = Jiggyape.view.element.playList;
+		for (var a = 0; a < playList.childNodes.length; a++) {
+			if (playList.childNodes[a].tagName == "LI") {
+				var childIndex = playList.childNodes[a].id.replace(Jiggyape.view.id.playlistEntry,"");
+				
+				if ( childIndex && Number(childIndex) > Number(index)) {
 					childIndex--;
-					searchList.childNodes[a].setAttribute('index', childIndex);
-					
-					
+					var child = playList.childNodes[a];
+					child.setAttribute('index', childIndex);
+						for (var b = 0; b < child.childNodes.length; b++) {
+							var button = child.childNodes[b];
+								if (button && button.getAttribute && button.getAttribute('index')) {
+										
+										button.setAttribute('index', childIndex);
+										
+								}
+						}
+					playList.childNodes[a].id = Jiggyape.view.id.playlistEntry + childIndex;
 				}
+				
 			}
 		}
 		
@@ -398,22 +411,19 @@ Jiggyape.view.PlayListView = {
 		var playList = Jiggyape.view.element.playList;
 		
 		Jiggyape.view.PlayListView.removeSelectedButton();
-					if(Jiggyape.data.player.playlist.length-1==YoutubePlayerJS.player.getPlaylistIndex())
+		Jiggyape.data.currentIndex = YoutubePlayerJS.player.getPlaylistIndex()+1;
+					if(Jiggyape.data.currentIndex >=Jiggyape.data.player.playlist.length || Jiggyape.data.player.playlist.length-1<=YoutubePlayerJS.player.getPlaylistIndex())
 					{
 						Jiggyape.data.currentIndex = 1;
 						YoutubePlayerJS.player.playVideoAt(1);
 					}else{
-						Jiggyape.data.currentIndex = YoutubePlayerJS.player.getPlaylistIndex()+1;
 						YoutubePlayerJS.player.nextVideo();
 					}
 					
 					YoutubePlayerJS.playVideo();
-					console.log(YoutubePlayerJS.player.getPlaylistIndex()-1);
 					var element = document.getElementById("playButton-"+ (Jiggyape.data.currentIndex-1));
 					element.className += " smallControlSelected";
-				// }
-			// }
-		// }
+
 	},
 	previousSong : function() {
 		Jiggyape.view.VideoView.onSeekUpdate(0);
@@ -435,9 +445,7 @@ Jiggyape.view.PlayListView = {
 					console.log(YoutubePlayerJS.player.getPlaylistIndex()-1);
 					var element = document.getElementById("playButton-"+ (Jiggyape.data.currentIndex-1));
 					element.className += " smallControlSelected";
-				// }
-			// }
-		// }
+
 	},
 	playSong : function(videoURL) {
 		YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
