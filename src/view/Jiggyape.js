@@ -355,6 +355,9 @@ Jiggyape.event = {
 	onYoutubeTimer:function()
 	{
 		var percent= YoutubePlayerJS.getCurrentTime()/YoutubePlayerJS.getDuration();
+		var ua = navigator.userAgent.toLowerCase();
+		var isAndroid = (ua.indexOf("android") > -1 && ua.indexOf("mobile")>=0); //;
+		if(isAndroid)percent=percent/100;
 		Jiggyape.view.VideoView.onSeekUpdate(percent);
 	},
 	onDragUp:function(item, event)
