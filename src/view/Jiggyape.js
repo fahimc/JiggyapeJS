@@ -50,6 +50,7 @@ Jiggyape.data = {
 			FORCED_PAUSED : "FORCED_PAUSED"
 		},
 		currentState : null,
+		duration:0,
 		playlist:new Array()
 	}
 }
@@ -57,7 +58,8 @@ Jiggyape.view = {
 	att : {
 		videoId : "video-id",
 		videoTitle : "video-title",
-		playlistParent : "playlist-parent"
+		playlistParent : "playlist-parent",
+		videoDuration : "video-duration"
 	},
 	id : {
 		searchListHolder : 'searchListHolder',
@@ -99,7 +101,7 @@ Jiggyape.view = {
 		var li = document.createElement('li');
 		li.className = "searchListLi";
 		li.setAttribute('index', index);
-
+		
 		var ul = document.createElement('ul');
 		ul.id = "entry" + index;
 		ul.setAttribute(Jiggyape.view.att.videoId,
@@ -137,6 +139,8 @@ Jiggyape.view = {
 		addButton.setAttribute(Jiggyape.view.att.videoId,
 				entry['media$group']['media$player'][0]['url']);
 		addButton.setAttribute(Jiggyape.view.att.videoTitle, entry.title['$t']);
+		addButton.setAttribute(Jiggyape.view.att.videoDuration, entry['media$group']['yt$duration']['seconds']);
+		
 		li3.appendChild(addButton);
 
 		li2.id = "searchTitleHolder-" + index;
@@ -147,7 +151,7 @@ Jiggyape.view = {
 		searchList.appendChild(li);
 
 	},
-	addToPlaylist : function(title, videoURL) {
+	addToPlaylist : function(title, videoURL,duration) {
 
 		var playList = Jiggyape.view.element.playList;
 		var li = document.createElement('li');
@@ -168,6 +172,7 @@ Jiggyape.view = {
 		playButton.setAttribute(Jiggyape.view.att.videoId, videoURL);
 		playButton.setAttribute(Jiggyape.view.att.videoTitle, title);
 		playButton.setAttribute('index', Jiggyape.data.playlist.total);
+		playButton.setAttribute(Jiggyape.view.att.videoDuration, duration);
 		li.appendChild(playButton);
 
 		var removeButton = document.createElement('div');
@@ -210,6 +215,7 @@ Jiggyape.event = {
 
 		for ( var a = 0; a < data.feed.entry.length; a++) {
 			var entry = data.feed.entry[a];
+			
 			Jiggyape.view.createSearchItem(entry, a);
 		}
 		Jiggyape.event.onResize();
@@ -225,7 +231,9 @@ Jiggyape.event = {
 		var videoTitle = element.getAttribute(Jiggyape.view.att.videoTitle) ? element
 				.getAttribute(Jiggyape.view.att.videoTitle)
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoTitle);
-		Jiggyape.view.addToPlaylist(videoTitle, videoURL);
+		
+		var duration = element.getAttribute(Jiggyape.view.att.videoDuration);
+		Jiggyape.view.addToPlaylist(videoTitle, videoURL,duration);
 		Spider.updateScrollers();
 		
 		Jiggyape.data.player.playlist.push(YoutubePlayerJS.getVideoId(videoURL));
@@ -264,7 +272,7 @@ Jiggyape.event = {
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoId);
 		//YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		//YoutubePlayerJS.playVideo();
-		
+		Jiggyape.data.player.duration = element.getAttribute(Jiggyape.view.att.videoDuration);
 		YoutubePlayerJS.player.playVideoAt(Number(element.getAttribute('index'))+1);
 		YoutubePlayerJS.playVideo();
 		Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
@@ -354,10 +362,11 @@ Jiggyape.event = {
 	},
 	onYoutubeTimer:function()
 	{
-		var percent= YoutubePlayerJS.getCurrentTime()/YoutubePlayerJS.getDuration();
-		var ua = navigator.userAgent.toLowerCase();
-		var isAndroid = (ua.indexOf("android") > -1 && ua.indexOf("mobile")>=0); //;
-		if(isAndroid)percent=percent/100;
+		//console.log(YoutubePlayerJS.getCurrentTime()+"/"+Jiggyape.data.player.duration);
+		var percent= YoutubePlayerJS.getCurrentTime()/Jiggyape.data.player.duration;
+//		var ua = navigator.userAgent.toLowerCase();
+//		var isAndroid = (ua.indexOf("android") > -1 && ua.indexOf("mobile")>=0); //;
+//		if(isAndroid)percent=percent/100;
 		Jiggyape.view.VideoView.onSeekUpdate(percent);
 	},
 	onDragUp:function(item, event)
