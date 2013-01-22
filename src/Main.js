@@ -23,7 +23,8 @@
 		Spider.data.className.scroller ="listScroller";
 		Spider.init();
 		Jiggyape.init();	
-		
+		FacebookJS.APP_ID = "331166713658859";
+		FacebookJS.init();
 	}
 	function onReady()
 	{

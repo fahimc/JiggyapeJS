@@ -348,6 +348,11 @@ Jiggyape.event = {
 
 	},
 	onPlaylistShareClicked : function(item, event) {
+		var element = event.srcElement || event.target;
+		var videoId = element.getAttribute(Jiggyape.view.att.videoId);
+		var videoTitle = element.getAttribute(Jiggyape.view.att.videoTitle);
+		var videoDuration = element.getAttribute(Jiggyape.view.att.videoDuration);
+		Jiggyape.view.Overlay.data ={videoId:videoId,videoTitle:videoTitle,videoDuration:videoDuration};
 		Jiggyape.view.Overlay.open(Jiggyape.view.Overlay.type.share);
 	},
 	onVideoViewBack : function(item, event) {
@@ -575,6 +580,7 @@ Jiggyape.view.Overlay = {
 	type : {
 		share : "share"
 	},
+	data:null,
 	currentType : null,
 	open : function(type) {
 		var black = document.getElementById(Jiggyape.view.Overlay.id.blackout);
@@ -585,8 +591,7 @@ Jiggyape.view.Overlay = {
 		elem.id = this.id.blackout;
 		document.body.appendChild(elem);
 
-		Spider.event.addListener(elem.id, "click",
-				Jiggyape.view.Overlay.event.close);
+		Spider.event.addListener(elem.id, "click",Jiggyape.view.Overlay.event.close);
 
 		switch (type) {
 		case this.type.share:
@@ -598,24 +603,50 @@ Jiggyape.view.Overlay = {
 		var elem = document.createElement('div');
 		elem.id = this.id.sharePanel;
 		document.body.appendChild(elem);
+		
+		var title =document.createElement('p');
+		title.className = "shareTitle";
+		title.innerHTML = "Share";
+		elem.appendChild(title);
+		
+		var button =document.createElement('div');
+		button.id = "shareFBButton";
+		button.innerHTML = "Facebook";
+		elem.appendChild(button);
+		
+		Spider.event.addListener(button.id, "click",Jiggyape.view.Overlay.event.onFBShareClicked);
+
+		button =document.createElement('div');
+		button.id = "shareTButton";
+		button.innerHTML = "Twitter";
+		elem.appendChild(button);
+		
+		Spider.event.addListener(button.id, "click",Jiggyape.view.Overlay.event.onTShareClicked);
 	},
 	event : {
 		close : function() {
-			var black = document
-					.getElementById(Jiggyape.view.Overlay.id.blackout);
+			var black = document.getElementById(Jiggyape.view.Overlay.id.blackout);
 			document.body.removeChild(black);
 			delete black;
 			
 			var box;
 			switch(Jiggyape.view.Overlay.currentType)
 			{
-			case this.type.share:
-			box =  document
-			.getElementById(Jiggyape.view.Overlay.id.sharePanel);
+			case Jiggyape.view.Overlay.type.share:
+			box =  document.getElementById(Jiggyape.view.Overlay.id.sharePanel);
 			break;
 			}
 			document.body.removeChild(box);
 			delete box;
+		},
+		onFBShareClicked:function()
+		{
+			FacebookJS.post("Jiggyape Music","Listen to Music at Jiggyape.com","http://jiggyape.com",null,Jiggyape.view.Overlay.data.videoTitle,"http://jiggyape.com");
+		}
+		,
+		onTShareClicked:function()
+		{
+			TwitterJS.post("Jiggyape Music","Listen to Music at Jiggyape.com","http://jiggyape.com",null,Jiggyape.view.Overlay.data.videoTitle,"http://jiggyape.com");
 		}
 	}
 

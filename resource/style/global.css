@@ -446,4 +446,49 @@ textarea:focus, input:focus{
     -webkit-border-radius: 10px;
     -khtml-border-radius: 10px;
     border-radius: 10px;
+    text-align: center;
+}
+#sharePanel .shareTitle
+{
+	color: #ff5811;
+	font-size: 31px;
+	text-align: center;
+	width: 100%;
+	margin-top: 10px;
+}
+#sharePanel #shareFBButton
+{
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+	width: 70%;
+	max-width:200px;
+	padding-top: 5px;
+	padding-bottom:5px;
+	margin-top: 10px;
+	background-color: #00549D;
+	 -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#sharePanel #shareTButton
+{
+	color: #fff;
+	font-size: 16px;
+	text-align: center;
+	width: 70%;
+	max-width:200px;
+	padding-top: 5px;
+	padding-bottom:5px;
+	margin-top: 10px;
+	background-color: #00ACEE;
+	 -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
