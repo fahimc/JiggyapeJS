@@ -34,6 +34,9 @@ var Jiggyape = {
 		contextMenu.addItem('version: 1');
 		contextMenu
 				.addItem("<a href='http://jiggyape.com' target='_blank'>jiggyape.com</a>");
+		
+		
+
 	}
 };
 Jiggyape.data = {
@@ -247,13 +250,21 @@ Jiggyape.event = {
 		Jiggyape.view.addToPlaylist(videoTitle, videoURL, duration);
 		Spider.updateScrollers();
 
-		Jiggyape.data.player.playlist
-				.push(YoutubePlayerJS.getVideoId(videoURL));
+//		Jiggyape.data.player.playlist
+//				.push(YoutubePlayerJS.getVideoId(videoURL));
+//		if (Jiggyape.data.player.playlist.length == 1)
+//			Jiggyape.data.player.playlist.push(YoutubePlayerJS
+//					.getVideoId(videoURL));
+//		YoutubePlayerJS.player.cuePlaylist(Jiggyape.data.player.playlist,
+//				Jiggyape.data.currentIndex);
+		Jiggyape.event.addToYoutubePlayList(videoURL);
+	},
+	addToYoutubePlayList:function(videoURL,index)
+	{
+		Jiggyape.data.player.playlist.push(YoutubePlayerJS.getVideoId(videoURL));
 		if (Jiggyape.data.player.playlist.length == 1)
-			Jiggyape.data.player.playlist.push(YoutubePlayerJS
-					.getVideoId(videoURL));
-		YoutubePlayerJS.player.cuePlaylist(Jiggyape.data.player.playlist,
-				Jiggyape.data.currentIndex);
+			Jiggyape.data.player.playlist.push(YoutubePlayerJS.getVideoId(videoURL));
+			YoutubePlayerJS.player.cuePlaylist(Jiggyape.data.player.playlist,index?index:Jiggyape.data.currentIndex);
 	},
 	onResize : function() {
 		var header = document.getElementById(Spider.data.id.header);
@@ -287,14 +298,23 @@ Jiggyape.event = {
 				: element.parentNode.getAttribute(Jiggyape.view.att.videoId);
 		// YoutubePlayerJS.loadVideoById(YoutubePlayerJS.getVideoId(videoURL));
 		// YoutubePlayerJS.playVideo();
-		Jiggyape.data.player.duration = element
-				.getAttribute(Jiggyape.view.att.videoDuration);
-		YoutubePlayerJS.player
-				.playVideoAt(Number(element.getAttribute('index')) + 1);
-		YoutubePlayerJS.playVideo();
-		Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
-		Jiggyape.data.currentIndex = Number(element.getAttribute('index')) + 1;
+//		Jiggyape.data.player.duration = element
+//				.getAttribute(Jiggyape.view.att.videoDuration);
+//		YoutubePlayerJS.player
+//				.playVideoAt(Number(element.getAttribute('index')) + 1);
+//		YoutubePlayerJS.playVideo();
+//		Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
+//		Jiggyape.data.currentIndex = Number(element.getAttribute('index')) + 1;
+		Jiggyape.event.setSongToPlay(Jiggyape.view.att.videoDuration,element.getAttribute('index'), Jiggyape.data.player.state.PLAYING);
 
+		
+	},
+	setSongToPlay : function(duration, index,state) {
+		Jiggyape.data.player.duration = duration;
+		YoutubePlayerJS.player.playVideoAt(Number(index) + 1);
+		YoutubePlayerJS.playVideo();
+		Jiggyape.data.player.currentState =state;
+		Jiggyape.data.currentIndex = Number(index) + 1;
 		Spider.navigateTo(2);
 	},
 	onPlaylistRemoveClicked : function(item, event) {
@@ -350,9 +370,15 @@ Jiggyape.event = {
 	onPlaylistShareClicked : function(item, event) {
 		var element = event.srcElement || event.target;
 		var videoId = element.getAttribute(Jiggyape.view.att.videoId);
+
 		var videoTitle = element.getAttribute(Jiggyape.view.att.videoTitle);
-		var videoDuration = element.getAttribute(Jiggyape.view.att.videoDuration);
-		Jiggyape.view.Overlay.data ={videoId:videoId,videoTitle:videoTitle,videoDuration:videoDuration};
+		var videoDuration = element
+				.getAttribute(Jiggyape.view.att.videoDuration);
+		Jiggyape.view.Overlay.data = {
+			videoId : videoId,
+			videoTitle : videoTitle,
+			duration : videoDuration
+		};
 		Jiggyape.view.Overlay.open(Jiggyape.view.Overlay.type.share);
 	},
 	onVideoViewBack : function(item, event) {
@@ -384,9 +410,8 @@ Jiggyape.event = {
 		Jiggyape.view.VideoView.seeking = true;
 	},
 	onYoutubeTimer : function() {
-		// console.log(YoutubePlayerJS.getCurrentTime()+"/"+Jiggyape.data.player.duration);
-		var percent = YoutubePlayerJS.getCurrentTime()
-				/ Jiggyape.data.player.duration;
+		var percent = YoutubePlayerJS.getCurrentTime()/ Jiggyape.data.player.duration;
+		
 		// var ua = navigator.userAgent.toLowerCase();
 		// var isAndroid = (ua.indexOf("android") > -1 &&
 		// ua.indexOf("mobile")>=0); //;
@@ -517,6 +542,7 @@ Jiggyape.view.VideoView = {
 	},
 	onstateChange : function(data) {
 
+		console.log(data);
 		if (data == 0) {
 			YoutubePlayerJS.player.setLoop(true);
 			Jiggyape.view.PlayListView.nextSong();
@@ -555,10 +581,26 @@ Jiggyape.view.VideoView = {
 	},
 	readyEvent : function(data) {
 
+		if (window.GET && window.GET.songId) {
+			var id = window.GET.songId;
+			Jiggyape.data.player.duration = window.GET.duration;
+			window.GET.songId = "http://www.youtube.com/watch?v="+window.GET.songId+"&feature=youtube_gdata_player";
+			Jiggyape.data.currentIndex=1;
+			Jiggyape.view.addToPlaylist(window.GET.title, window.GET.songId, window.GET.duration);
+			Jiggyape.event.addToYoutubePlayList(id,1);
+			Spider.navigateTo(2);
+			Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING;
+			YoutubePlayerJS.playVideo();
+			//Jiggyape.event.setSongToPlay( window.GET.durationn,0,Jiggyape.data.player.currentState = Jiggyape.data.player.state.PLAYING);
+			
+			
+			
+		}
 		// YoutubePlayerJS.setPlaybackQuality(YoutubePlayerJS.quality.SMALL);
 
 	},
 	errorEvent : function(data) {
+		console.log(data);
 		// Spider.toast("error: " + data);
 	},
 	resize : function() {
@@ -580,7 +622,7 @@ Jiggyape.view.Overlay = {
 	type : {
 		share : "share"
 	},
-	data:null,
+	data : null,
 	currentType : null,
 	open : function(type) {
 		var black = document.getElementById(Jiggyape.view.Overlay.id.blackout);
@@ -591,7 +633,8 @@ Jiggyape.view.Overlay = {
 		elem.id = this.id.blackout;
 		document.body.appendChild(elem);
 
-		Spider.event.addListener(elem.id, "click",Jiggyape.view.Overlay.event.close);
+		Spider.event.addListener(elem.id, "click",
+				Jiggyape.view.Overlay.event.close);
 
 		switch (type) {
 		case this.type.share:
@@ -603,50 +646,71 @@ Jiggyape.view.Overlay = {
 		var elem = document.createElement('div');
 		elem.id = this.id.sharePanel;
 		document.body.appendChild(elem);
-		
-		var title =document.createElement('p');
+
+		var title = document.createElement('p');
 		title.className = "shareTitle";
 		title.innerHTML = "Share";
 		elem.appendChild(title);
-		
-		var button =document.createElement('div');
+
+		var button = document.createElement('div');
 		button.id = "shareFBButton";
 		button.innerHTML = "Facebook";
 		elem.appendChild(button);
-		
-		Spider.event.addListener(button.id, "click",Jiggyape.view.Overlay.event.onFBShareClicked);
 
-		button =document.createElement('div');
+		Spider.event.addListener(button.id, "click",
+				Jiggyape.view.Overlay.event.onFBShareClicked);
+
+		button = document.createElement('div');
 		button.id = "shareTButton";
 		button.innerHTML = "Twitter";
 		elem.appendChild(button);
-		
-		Spider.event.addListener(button.id, "click",Jiggyape.view.Overlay.event.onTShareClicked);
+
+		Spider.event.addListener(button.id, "click",
+				Jiggyape.view.Overlay.event.onTShareClicked);
 	},
 	event : {
 		close : function() {
-			var black = document.getElementById(Jiggyape.view.Overlay.id.blackout);
+			var black = document
+					.getElementById(Jiggyape.view.Overlay.id.blackout);
 			document.body.removeChild(black);
 			delete black;
-			
+
 			var box;
-			switch(Jiggyape.view.Overlay.currentType)
-			{
+			switch (Jiggyape.view.Overlay.currentType) {
 			case Jiggyape.view.Overlay.type.share:
-			box =  document.getElementById(Jiggyape.view.Overlay.id.sharePanel);
-			break;
+				box = document
+						.getElementById(Jiggyape.view.Overlay.id.sharePanel);
+				break;
 			}
 			document.body.removeChild(box);
 			delete box;
 		},
-		onFBShareClicked:function()
-		{
-			FacebookJS.post("Jiggyape Music","Listen to Music at Jiggyape.com","http://jiggyape.com",null,Jiggyape.view.Overlay.data.videoTitle,"http://jiggyape.com");
-		}
-		,
-		onTShareClicked:function()
-		{
-			TwitterJS.post("Jiggyape Music","Listen to Music at Jiggyape.com","http://jiggyape.com",null,Jiggyape.view.Overlay.data.videoTitle,"http://jiggyape.com");
+		onFBShareClicked : function() {
+			FacebookJS
+					.post(
+							"Jiggyape Music",
+							"Listen to Music at Jiggyape.com",
+							"http://dev.jiggyape.com/mobile/index.php?s="
+									+ YoutubePlayerJS
+											.getVideoId(Jiggyape.view.Overlay.data.videoId)
+									+ "&d="
+									+ Jiggyape.view.Overlay.data.duration
+									+ "&t="
+									+ Jiggyape.view.Overlay.data.videoTitle,
+							null, Jiggyape.view.Overlay.data.videoTitle,
+							"http://jiggyape.com");
+		},
+		onTShareClicked : function() {
+			TwitterJS.post("Jiggyape Music", "Listen to Music at Jiggyape.com",
+					"http://dev.jiggyape.com/mobile/index.php?s="
+					+ YoutubePlayerJS
+							.getVideoId(Jiggyape.view.Overlay.data.videoId)
+					+ "&d="
+					+ Jiggyape.view.Overlay.data.duration
+					+ "&t="
+					+ Jiggyape.view.Overlay.data.videoTitle, null,
+					Jiggyape.view.Overlay.data.videoTitle,
+					"http://jiggyape.com");
 		}
 	}
 

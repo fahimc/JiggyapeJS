@@ -27,8 +27,8 @@ var FacebookJS=
         // "[title]="+title+"&p"+
         // "[url]="+url+"&p"+
         // (image0?"[images][0]="+image0+"&p":"")+
-        // "[summary]="+description);
-	var completeURL = "http://m.facebook.com/sharer.php?u="+encodeURI(url)+"&t="+title+"&desc="+description;
+        // "[summary]="+description);	
+	var completeURL = "http://m.facebook.com/sharer.php?u="+escape(url)+"&t="+title+"&desc="+description;
     // Facebook popup
     window.open(completeURL, "sharer", "menubar=1, resizable=1, width="+document.body.offsetWidth+", height="+document.body.offsetHeight+"");
 

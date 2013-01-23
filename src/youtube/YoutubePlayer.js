@@ -1,5 +1,6 @@
 var YoutubePlayerJS = {
 	playerId : 'player',
+	videoId:"",
 	seekTimer : null,
 	event : {
 		UNSTARTED : -1,
@@ -76,6 +77,7 @@ var YoutubePlayerJS = {
 		YoutubePlayerJS.player.seekTo(value);
 	},
 	getVideoId : function(url) {
+		if(url.indexOf('youtube.com')<0)return url;
 		// "http://www.youtube.com/watch?v=LLKqqHc7s08&feature=youtube_gdata_player"
 		var str1 = url.split('v=')[1];
 		var str2 = str1.split('&');
@@ -99,7 +101,7 @@ function onYouTubeIframeAPIReady() {
 	YoutubePlayerJS.player = new YT.Player(YoutubePlayerJS.playerId, {
 		height : '100%',
 		width : '100%',
-		videoId : '',
+		videoId : YoutubePlayerJS.videoId,
 		playerVars : {
 			'autoplay' : '1',
 			'controls' : '0',

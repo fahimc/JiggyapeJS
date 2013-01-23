@@ -12,6 +12,9 @@
 			window.attachEvent("onload", onLoad);
 		}
 		//setup youtube player
+		if (window.GET && window.GET.songId) {
+			//YoutubePlayerJS.videoId = window.GET.songId;
+		}
 		YoutubePlayerJS.stateChangeEvent = Jiggyape.view.VideoView.onstateChange;
 		YoutubePlayerJS.errorEvent = Jiggyape.view.VideoView.errorEvent;
 		YoutubePlayerJS.readyEvent = Jiggyape.view.VideoView.readyEvent;
