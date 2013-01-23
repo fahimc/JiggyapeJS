@@ -37,6 +37,7 @@ function pageURL() {
 <script type="text/javascript" src="src/service/Youtube.js"></script>
 <script type="text/javascript" src="src/service/Facebook.js"></script>
 <script type="text/javascript" src="src/service/Twitter.js"></script>
+<script type="text/javascript" src="src/service/Email.js"></script>
 <script type="text/javascript" src="lib/spider/gesture.js"></script>
 <script type="text/javascript" src="lib/spider/Spider.js"></script>
 <script type="text/javascript" src="src/view/Jiggyape.js"></script>

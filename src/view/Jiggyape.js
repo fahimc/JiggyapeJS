@@ -647,11 +647,18 @@ Jiggyape.view.Overlay = {
 		elem.id = this.id.sharePanel;
 		document.body.appendChild(elem);
 
+		var closeButton= document.createElement('div');
+		closeButton.id = "shareCloseButton";
+		elem.appendChild(closeButton);		
+		Spider.event.addListener(closeButton.id, "click",
+				Jiggyape.view.Overlay.event.onShareCloseClicked);
+
 		var title = document.createElement('p');
 		title.className = "shareTitle";
 		title.innerHTML = "Share";
 		elem.appendChild(title);
-
+		
+		
 		var button = document.createElement('div');
 		button.id = "shareFBButton";
 		button.innerHTML = "Facebook";
@@ -660,13 +667,21 @@ Jiggyape.view.Overlay = {
 		Spider.event.addListener(button.id, "click",
 				Jiggyape.view.Overlay.event.onFBShareClicked);
 
+		// button = document.createElement('div');
+		// button.id = "shareTButton";
+		// button.innerHTML = "Twitter";
+		// elem.appendChild(button);
+// 		
+		// Spider.event.addListener(button.id, "click",
+				// Jiggyape.view.Overlay.event.onTShareClicked);
+		
 		button = document.createElement('div');
-		button.id = "shareTButton";
-		button.innerHTML = "Twitter";
+		button.id = "shareEButton";
+		button.innerHTML = "Email";
 		elem.appendChild(button);
 
 		Spider.event.addListener(button.id, "click",
-				Jiggyape.view.Overlay.event.onTShareClicked);
+				Jiggyape.view.Overlay.event.onEShareClicked);
 	},
 	event : {
 		close : function() {
@@ -711,6 +726,20 @@ Jiggyape.view.Overlay = {
 					+ Jiggyape.view.Overlay.data.videoTitle, null,
 					Jiggyape.view.Overlay.data.videoTitle,
 					"http://jiggyape.com");
+		},
+		onEShareClicked : function() {
+			Email.post(Jiggyape.view.Overlay.data.videoTitle,
+					"http://dev.jiggyape.com/mobile/index.php?s="
+					+ YoutubePlayerJS
+							.getVideoId(Jiggyape.view.Overlay.data.videoId)
+					+ "&d="
+					+ Jiggyape.view.Overlay.data.duration
+					+ "&t="
+					+ Jiggyape.view.Overlay.data.videoTitle);
+		},
+		onShareCloseClicked:function()
+		{
+			Jiggyape.view.Overlay.event.close();
 		}
 	}
 

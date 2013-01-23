@@ -455,6 +455,7 @@ textarea:focus, input:focus{
 	text-align: center;
 	width: 100%;
 	margin-top: 10px;
+	margin-bottom: 20px;
 }
 #sharePanel #shareFBButton
 {
@@ -463,8 +464,8 @@ textarea:focus, input:focus{
 	text-align: center;
 	width: 70%;
 	max-width:200px;
-	padding-top: 5px;
-	padding-bottom:5px;
+	padding-top: 8px;
+	padding-bottom:8px;
 	margin-top: 10px;
 	background-color: #00549D;
 	 -moz-border-radius: 10px;
@@ -473,6 +474,8 @@ textarea:focus, input:focus{
     border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
+     font-weight: bold;
 }
 #sharePanel #shareTButton
 {
@@ -481,8 +484,8 @@ textarea:focus, input:focus{
 	text-align: center;
 	width: 70%;
 	max-width:200px;
-	padding-top: 5px;
-	padding-bottom:5px;
+	padding-top: 8px;
+	padding-bottom:8px;
 	margin-top: 10px;
 	background-color: #00ACEE;
 	 -moz-border-radius: 10px;
@@ -491,4 +494,36 @@ textarea:focus, input:focus{
     border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
+     cursor: pointer;
+      font-weight: bold;
+}
+#sharePanel #shareEButton
+{
+	color: #333;
+	font-size: 16px;
+	text-align: center;
+	width: 70%;
+	max-width:200px;
+	padding-top: 8px;
+	padding-bottom:8px;
+	margin-top: 10px;
+	background-color: #E4E4E4;
+	 -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+     cursor: pointer;
+     font-weight: bold;
+}
+#sharePanel #shareCloseButton
+{
+	width:40px;
+	height:40px;
+	background: url(../image/closeButton.png);
+	cursor: pointer;
+	position: absolute;
+	right:10px;
+	
 }
