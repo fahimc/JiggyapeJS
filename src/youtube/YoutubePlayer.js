@@ -1,6 +1,6 @@
 var YoutubePlayerJS = {
 	playerId : 'player',
-	videoId:"",
+	videoId : "",
 	seekTimer : null,
 	event : {
 		UNSTARTED : -1,
@@ -26,7 +26,7 @@ var YoutubePlayerJS = {
 	player : null,
 	stateChangeEvent : null,
 	readyEvent : null,
-	timerEvent:null,
+	timerEvent : null,
 	errorEvent : null,
 	init : function() {
 		var tag = document.createElement('script');
@@ -61,8 +61,7 @@ var YoutubePlayerJS = {
 		clearInterval(YoutubePlayerJS.seekTimer);
 		YoutubePlayerJS.seekTimer = setInterval(YoutubePlayerJS.onTimer, 100);
 	},
-	cueVideoById:function(id)
-	{
+	cueVideoById : function(id) {
 		YoutubePlayerJS.player.cueVideoById(id);
 	},
 	pauseVideo : function() {
@@ -72,26 +71,25 @@ var YoutubePlayerJS = {
 	loadVideoById : function(id) {
 		YoutubePlayerJS.player.loadVideoById(id);
 	},
-	seekTo:function(value)
-	{
+	seekTo : function(value) {
 		YoutubePlayerJS.player.seekTo(value);
 	},
 	getVideoId : function(url) {
-		if(url.indexOf('youtube.com')<0)return url;
+		if (url.indexOf('youtube.com') < 0)
+			return url;
 		// "http://www.youtube.com/watch?v=LLKqqHc7s08&feature=youtube_gdata_player"
 		var str1 = url.split('v=')[1];
 		var str2 = str1.split('&');
 		return str2[0];
 	},
 	onTimer : function() {
-		if(YoutubePlayerJS.timerEvent)YoutubePlayerJS.timerEvent();
+		if (YoutubePlayerJS.timerEvent)
+			YoutubePlayerJS.timerEvent();
 	},
-	getDuration:function()
-	{
+	getDuration : function() {
 		return YoutubePlayerJS.player.getDuration();
 	},
-	getCurrentTime:function()
-	{
+	getCurrentTime : function() {
 		return YoutubePlayerJS.player.getCurrentTime();
 	}
 }
@@ -105,8 +103,8 @@ function onYouTubeIframeAPIReady() {
 		playerVars : {
 			'autoplay' : '1',
 			'controls' : '0',
-			'iv_load_policy':'3',
-			'html5':'0'
+			'iv_load_policy' : '3',
+			'html5' : '0'
 		},
 		events : {
 			'onReady' : YoutubePlayerJS.onPlayerReady,

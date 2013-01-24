@@ -1,9 +1,9 @@
 (function(window) {
 	var searchBox;
 	var searchButton;
-	var searchList ;
-	var searchBar ;
-	
+	var searchList;
+	var searchBar;
+
 	function Main() {
 		if (window.addEventListener) {
 			window.addEventListener("load", onLoad);
@@ -11,9 +11,9 @@
 		} else {
 			window.attachEvent("onload", onLoad);
 		}
-		//setup youtube player
+		// setup youtube player
 		if (window.GET && window.GET.songId) {
-			//YoutubePlayerJS.videoId = window.GET.songId;
+			// YoutubePlayerJS.videoId = window.GET.songId;
 		}
 		YoutubePlayerJS.stateChangeEvent = Jiggyape.view.VideoView.onstateChange;
 		YoutubePlayerJS.errorEvent = Jiggyape.view.VideoView.errorEvent;
@@ -22,19 +22,17 @@
 	}
 
 	function onLoad() {
-		Event.addListener(Spider,Spider.event.COMPLETE,onReady);
-		Spider.data.className.scroller ="listScroller";
+		Event.addListener(Spider, Spider.event.COMPLETE, onReady);
+		Spider.data.className.scroller = "listScroller";
 		Spider.init();
-		Jiggyape.init();	
+		Jiggyape.init();
 		FacebookJS.APP_ID = "331166713658859";
 		FacebookJS.init();
 	}
-	function onReady()
-	{
+	function onReady() {
 		Jiggyape.event.onResize();
 
 	}
 
 	Main();
-}
-)(window);
+})(window);

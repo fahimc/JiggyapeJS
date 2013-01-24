@@ -66,6 +66,9 @@ window.GET=
 	<div id="wrapper">
 		<div id="header">
 			<img src="resource/image/logo.png" />
+			<ul class="buttonHolder">
+			<li id="loginButton">login</li>
+			</ul>
 		</div>
 		<div id="spider-content" swipe="true">
 			<div>
